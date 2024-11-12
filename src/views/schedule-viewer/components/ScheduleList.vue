@@ -87,7 +87,6 @@ import { CareerManagmentService, TeacherManagmentService } from '@/services/data
     
     //Fix this
     getColor(teacher_active) {
-        console.log("Grade status: ", teacher_active);
         if (teacher_active === "ACTIVO") return 'green';
         else return 'gray';
     },

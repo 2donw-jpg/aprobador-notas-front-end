@@ -7,9 +7,26 @@ export const GradeManagmentService = {
      * @param {number} parcial_id Ocupa el id del parcial para poder acceder a la información
      * @returns Promise que debe de ser accedido con el .data
      */
-    getTeacherList(parcial_id){
-        return http.get(`/schedule/parcial/${parcial_id}`);
-    }    
+    getListByParcial(parcial_id){
+        return http.get(`/grade-report/parcial/${parcial_id}`);
+    },    
+    
+    /**
+     * 
+     * 
+     */
+    updateGradeStatus(responsible_id, schedule_id){
+        return http.get(`/grade-report/${schedule_id}`,{responsible_id: responsible_id});
+    },    
+
+    /**
+     * Provee un objeto de los [años[periodos[parciales]]], catedráticos, clases y secciones 
+     * para el llenado del formulario
+     * @returns Promise que debe de ser accedido con el .data
+     */
+    getFormData(){
+        return http.get(`/data/schedule`);
+    }
 }
 
 export const TeacherManagmentService = {
@@ -60,7 +77,6 @@ export const CareerManagmentService = {
 }
 
 export const ClassManagmentService = {
-
     /**
      * 
      * Listado de todas las clases existentes en la base de datos
@@ -82,5 +98,42 @@ export const ClassManagmentService = {
         }); 
     }
 }
+
+export const SectionManagmentService = {
+    /**
+     * 
+     * Listado de todas las clases existentes en la base de datos
+     * @returns Promise que debe de ser accedido con el .data
+     */
+    getSectionsList(){
+        return http.get('/sections')
+    },
+
+    /**
+     * Crea un registro de clase en la base de datos
+     * @param {String} class_code Código de la clase
+     * @param {String} class_name Nombre de la clase
+     */
+    createClass(class_code, class_name) {
+        return http.post('/classes', {
+            class_code: class_code,
+            class_name: class_name
+        }); 
+    }
+}
+
+
+export const ParcialManagmentService = {
+    /**
+     * 
+     * Listado de todas las clases existentes en la base de datos
+     * @returns Promise que debe de ser accedido con el .data
+     */
+    getList(){
+        return http.get('/parcials');
+    },
+
+}
+
 
 

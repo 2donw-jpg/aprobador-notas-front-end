@@ -1,0 +1,49 @@
+<template>
+    <div>
+      <h3 class="text-h6">Fecha de Parcial</h3>
+      <v-sheet>
+        <v-row>
+          <v-col>
+            <v-select
+              label="Año"
+              :items="years"
+              item-title="title"
+              item-value="id"
+              variant="underlined"
+              v-model="selected.year"
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              label="Periodo"
+              :items="periods"
+              item-title="title"
+              item-value="id"
+              variant="underlined"
+              v-model="selected.year"
+              :disabled="!selected.year"
+              @click="$emit('year-change')"
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              label="Parcial"
+              :items="parcials"
+              item-title="title"
+              variant="underlined"
+              item-value="id"
+              v-model="selected.parcial"
+              :disabled="!selected.period"
+              @click="$emit('period-change')"
+            />
+          </v-col>
+        </v-row>
+      </v-sheet>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    props: ["years", "periods", "parcials", "selected"]
+  };
+  </script>

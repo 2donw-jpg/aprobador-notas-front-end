@@ -36,8 +36,6 @@
         </span>
         </template>
       </v-select> -->
-      
-
     </v-card-title>
  
 
@@ -73,9 +71,9 @@ import { CareerManagmentService, TeacherManagmentService } from '@/services/data
     data() {
     return {
       headers: [
-        { title: 'Código', key: "teacher_code", value: 'teacher_id',align:"center"},
+        { title: 'Código', key: "teacher_code", value: 'teacher_id',align:"start"},
         { title: 'Nombre', key: "teacher_name", value: 'teacher_name' },
-        { title: 'Correo electrónico', key: "teacher_email", value: 'teacher_email' },
+        { title: 'Correo electrónico', key: "teacher_email", value: 'teacher_email',},
         { title: 'Estado', key: "teacher_active", value: 'teacher_active' ,align:"center"},
         { title: 'Acciones', key: "", value: '',sortable:"false",align:"center"}
       ],
@@ -91,19 +89,20 @@ import { CareerManagmentService, TeacherManagmentService } from '@/services/data
   },
 
   methods: {
-    
-    //Fix this
-    getColor(teacher_active) {
-        console.log("Grade status: ", teacher_active);
-        if (teacher_active === "ACTIVO") return 'green';
-        else return 'gray';
-    },
-
     async loadData() {
       try {
         const careerResponse = await CareerManagmentService.getCareerList();
         const teacherResponse = await TeacherManagmentService.getTeacherList();
 
+        //TODO: Show an alert if this if the status is not 200
+        if(teacherResponse.status != 200){
+          throw new Error("Error loading teacher data");
+        }
+        if(careerResponse.status != 200){
+
+          throw new Error("Error loading career data");
+        }
+          
         this.careers = careerResponse.data;
         this.teachers = teacherResponse.data;
 

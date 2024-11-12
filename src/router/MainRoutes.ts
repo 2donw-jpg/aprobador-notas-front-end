@@ -43,6 +43,11 @@ const MainRoutes = {
       component: () => import('@/views/grades-reporter/ClassesView.vue')
     },
     {
+      name: 'Periodos y Parciales',
+      path: '/periods',
+      component: () => import('@/views/grades-reporter/PeriodsView.vue')
+    },
+    {
       name: 'Color',
       path: '/icon/ant',
       component: () => import('@/views/icons/AntDesignIcons.vue')

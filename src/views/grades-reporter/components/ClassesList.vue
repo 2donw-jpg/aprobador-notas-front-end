@@ -1,7 +1,7 @@
 <template>
     <v-card dense>
-      <v-card-title class="d-flex align-start pa-2">
-        <v-text-field
+      <v-card-title class="d-flex align-start">
+<!--         <v-text-field
         v-model="searchCode"
         label="Buscar por Código"
         variant="outlined"
@@ -11,9 +11,9 @@
         single-line
       ></v-text-field>
 
-      <v-spacer></v-spacer>
+      <v-spacer></v-spacer> -->
 
-        <v-text-field
+        <v-text-field cols="6" max-width="400"
         v-model="searchName"
         label="Buscar por Nombre"
         variant="outlined"
@@ -36,13 +36,11 @@
         :sortable="true"
       >
       <template v-slot:item.class_active="{ item }">
-        <div class="text-start">
-          <v-chip
+          <v-chip class="align-center"
             :color="item.class_active == 1 ? 'success' : 'grey'"
             :text="item.class_active == 1 ? 'Activo' : 'Inactivo'"
             variant="flat"
           ></v-chip>
-        </div>
       </template>
 
       </v-data-table>

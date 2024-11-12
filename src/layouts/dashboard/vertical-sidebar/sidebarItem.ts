@@ -107,6 +107,11 @@ const sidebarItem: menu[] = [
     icon: ProfileOutlined,
     to: '/classes'
   },
+  {
+    title: 'Periodos y Parciales',
+    icon: ProfileOutlined,
+    to: '/periods'
+  },
   
   { header: 'Authentication' },
   {

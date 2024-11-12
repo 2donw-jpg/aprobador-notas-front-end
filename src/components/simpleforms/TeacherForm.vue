@@ -120,9 +120,7 @@ export default {
     async loadData() {
       try {
         const careerResponse = await CareerManagmentService.getCareerList();
-
         this.careers = careerResponse.data;
-
       } catch (error) {
         console.error('Error loading JSON data:', error);
       }
