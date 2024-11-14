@@ -54,13 +54,23 @@ const MainRoutes = {
     },
     {
       name: 'TestingNotificaciones',
-      path: '/testing',
+      path: '/tests/snackbar',
       component: () => import('@/views/_testing/NotificationsTest.vue')
     },
     {
       name: 'Testing2',
       path: '/testing2',
       component: () => import('@/views/_testing/Testing2.vue')
+    },
+    {
+      name: 'CalendarTest',
+      path: '/tests/calendar',
+      component: () => import('@/views/_testing/CalendarTest.vue')
+    },
+    {
+      name: 'DialogTest',
+      path: '/tests/dialog',
+      component: () => import('@/views/_testing/DialogTest.vue')
     },
   ]
 };

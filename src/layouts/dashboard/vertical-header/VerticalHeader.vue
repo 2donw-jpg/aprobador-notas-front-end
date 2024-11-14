@@ -4,8 +4,8 @@ import { useCustomizerStore } from '../../../stores/customizer';
 import { MenuFoldOutlined, SearchOutlined } from '@ant-design/icons-vue';
 
 // dropdown imports
-/* import NotificationDD from './NotificationDD.vue';
-import ProfileDD from './ProfileDD.vue'; */
+import NotificationDD from './NotificationDD.vue';
+import ProfileDD from './ProfileDD.vue';
 
 const customizer = useCustomizerStore();
 </script>
@@ -69,7 +69,7 @@ const customizer = useCustomizerStore();
     <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
-<!--     <NotificationDD /> -->
+<!--     <NotificationDD />  -->
 
     <!-- ---------------------------------------------- -->
     <!-- User Profile -->
@@ -88,7 +88,7 @@ const customizer = useCustomizerStore();
       <v-sheet rounded="md" width="290">
         <ProfileDD />
       </v-sheet>
-    </v-menu> -->
+    </v-menu>  -->
 
 
   </v-app-bar>

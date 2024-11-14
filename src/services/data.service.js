@@ -113,7 +113,6 @@ export const SectionManagmentService = {
     }
 }
 
-
 export const ParcialManagmentService = {
     /**
      * 
