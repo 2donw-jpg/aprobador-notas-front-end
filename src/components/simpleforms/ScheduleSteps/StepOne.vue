@@ -20,7 +20,7 @@
               item-title="title"
               item-value="id"
               variant="underlined"
-              v-model="selected.year"
+              v-model="selected.period"
               :disabled="!selected.year"
               @click="$emit('year-change')"
             />
@@ -44,6 +44,41 @@
   
   <script>
   export default {
-    props: ["years", "periods", "parcials", "selected"]
+    props: ["years", "periods", "parcials", "selected"],
+
+
+
+    methods: {
+      loadYears() {
+      this.lists.years = this.lists.jsonData.map(year => ({
+        id: year.id,
+        title: year.title
+      }));
+    },
+
+    onYearChange() {
+      const year = this.lists.jsonData.find(year => year.id === this.selected.year);
+      this.lists = {
+        periods: year.children,
+        parcials: []
+      };
+
+      this.$emit('update:value', newValue);
+
+      this.selected = {
+        period: null,
+        parcial: null
+      };
+    },
+
+    onPeriodChange() {
+      const year = this.lists.jsonData.find(year => year.id === this.selected.year);
+      const period = year.children.find(period => period.id === this.selected.period);
+      this.lists.parcials = period.children;
+      this.selected.parcial = null;
+    },
+    }
+
+    
   };
   </script>

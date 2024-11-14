@@ -32,9 +32,9 @@ const breadcrumbs: Ref<{ title: string; disabled: boolean; href: string }[]> = r
     </v-col>
 
   </v-row>
-
-
+  
   <v-col cols="24" md="12">
       <TeacherList></TeacherList>
   </v-col>
+
 </template>

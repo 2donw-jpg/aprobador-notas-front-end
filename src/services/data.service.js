@@ -51,16 +51,7 @@ export const TeacherManagmentService = {
         };
         teacher_careers? body.teacher_careers = teacher_careers : null;
         teacher_email? body.teacher_email = teacher_email.concat("@ujcv.edu.hn") : null;
-
-        console.log("Form submitted:", body);
-
-        if(teacher_careers){
-            console.log("Career List is empty");
-        }else{
-            console.log("Career list: ", teacher_careers)
-        }
-
-        return http.post('/teachers', body); 
+        return http.post('/teachers', body);  
     }
 
 }

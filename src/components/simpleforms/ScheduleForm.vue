@@ -1,55 +1,122 @@
 <template>
   <v-dialog v-model="dialog" max-width="900">
+
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
         class="text-none font-weight-bold"
-        text="Crear Asignación"
+        text="Crear Horario de Clase"
         color="success"
         variant="elevated"
         v-bind="activatorProps"
       >
-        Crear Asignación
       </v-btn>
     </template>
 
-    <v-stepper v-model="currentStep" :items="items" show-actions prev-text="Regresar" next-text="Siguiente">
+    <v-stepper :items="items">
       <template v-slot:item.1>
-        <StepOne
-          :years="lists.years"
-          :periods="lists.periods"
-          :parcials="lists.parcials"
-          :selected="selected"
-          @year-change="onYearChange"
-          @period-change="onPeriodChange"
-        />
+        <v-form>
+          <v-container>
+          <v-row>
+            <v-col>
+              <v-select
+                label="Año Académico"
+                :items="lists.years"
+                item-title="title"
+                item-value="id"
+                variant="outlined"
+                v-model="selected.year"
+                :return-object="true"
+                @update:modelValue="onYearChange"
+              ></v-select>  
+            </v-col>
+            <v-col>
+              <v-select
+                label="Periodo"
+                :items="lists.periods"
+                item-title="title"
+                item-value="id"
+                variant="outlined"
+                v-model="selected.period"
+                :disabled="!selected.year"
+                :return-object="true"
+                @update:modelValue="onPeriodChange"
+              />
+            </v-col>
+            <v-col>
+              <v-select
+                label="Parcial"
+                :items="lists.parcials"
+                item-title="title"
+                variant="outlined"
+                item-value="id"
+                v-model="selected.parcial"
+                :return-object="true"
+                :disabled="!selected.period"
+              />
+            </v-col>
+          </v-row>
+          </v-container>
+
+          <v-container>
+          <v-row>
+          <v-col>
+            <v-autocomplete
+              label="Clase"
+              :items="lists.classes"
+              item-title="class"
+              item-value="class_id"
+              variant="outlined"
+              v-model="selected.class"
+            />
+          </v-col>
+          <v-col>
+            <v-autocomplete
+              label="Sección"
+              :items="lists.sections"
+              item-title="section_name"
+              item-value="section_id"
+              variant="outlined"
+              v-model="selected.section"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-autocomplete
+              label="Catedrático"
+              :items="lists.teachers"
+              item-title="teacher_name"
+              item-value="teacher_id"
+              variant="outlined"
+              v-model="selected.teacher"
+            />
+          </v-col>
+        </v-row>
+        </v-container>
+        </v-form>
       </template>
 
       <template v-slot:item.2>
-        <StepTwo
-          :classes="lists.classes"
-          :sections="lists.sections"
-          :teachers="lists.teachers"
-          :selected="selected"
-        />
+        <h3>"En esta sección se establecerá un espacio para guardar el horario\nTemporalmente innabilidato" </h3>
       </template>
 
       <template v-slot:item.3>
-        <StepThree :selected="selected" />
+        <v-card title="Step Three" flat>...</v-card>
       </template>
     </v-stepper>
+
   </v-dialog>
 </template>
 
 <script>
-import StepOne from './ScheduleSteps/StepOne.vue';
-import StepTwo from './ScheduleSteps/StepTwo.vue';
-import StepThree from './ScheduleSteps/StepThree.vue';
 import { GradeManagmentService, ParcialManagmentService } from '@/services/data.service.js';
 
 export default {
-  components: { StepOne, StepTwo, StepThree },
   data: () => ({
-    items: ['Establecer Parcial', 'Asignar Clase', 'Confirmar Información'],
+    valid: false,
+    dialog: false,
+    currentStep: 1,
+    items: ['Establecer Asignación', 'Agregar Horario ', 'Confirmar Información'],
     selected: {
       year: '',
       period: '',
@@ -67,13 +134,16 @@ export default {
       classes: [],
       sections: []
     },
-    dialog: false,
-    currentStep: 1
+
   }),
   created() {
     this.loadData();
   },
   methods: {
+
+    clearData(){
+      this.valid = false;
+    },
 
     async loadData() {
       const response = await GradeManagmentService.getFormData();
@@ -81,19 +151,12 @@ export default {
       if (response.status !== 200 || parcialResponse.status !== 200) {
         throw new Error("Error al acceder a los datos");
       }
-      this.lists = {
-        teachers: response.data.teachers,
-        classes: response.data.classes,
-        sections: response.data.sections,
-        jsonData: parcialResponse.data
-      };
+      this.lists.teachers = response.data.teachers;
+      this.lists.classes = response.data.classes;
+      this.lists.sections = response.data.sections;
+      this.lists.jsonData = parcialResponse.data;
       this.loadYears();
     },
-
-
-    async saveData(){
-      const response = await 
-    }
 
     loadYears() {
       this.lists.years = this.lists.jsonData.map(year => ({
@@ -103,44 +166,22 @@ export default {
     },
 
     onYearChange() {
-      const year = this.lists.jsonData.find(year => year.id === this.selected.year);
-      this.lists = {
-        periods: year.children,
-        parcials: []
-      };
-      this.selected = {
-        period: null,
-        parcial: null
-      };
+      const year = this.lists.jsonData.find(year => year.id === this.selected.year.id);
+      this.lists.periods = year.children;
+      this.parcials = [];
+      this.selected.period = null;
+      this.selected.parcial = null;
+
     },
 
     onPeriodChange() {
-      const year = this.lists.jsonData.find(year => year.id === this.selected.year);
-      const period = year.children.find(period => period.id === this.selected.period);
-      this.lists.parcials = period.children;
-      this.selected.parcial = null;
+        const year = this.lists.jsonData.find(year => year.id === this.selected.year.id);
+        const period = year.children.find(period => period.id === this.selected.period.id);
+        this.lists.parcials = period.children;
+        this.selected.parcial = null;
     },
 
-    nextStep() {
-      if (this.currentStep < this.maxSteps) this.currentStep++;
-    },
-    
-    prevStep() {
-      if (this.currentStep > 1) this.currentStep--;
-    },
-        
-    onStepTwo() {
-      console.log("Selected data: ", this.selected);
-    }
-  },
 
-  watch: {
-      currentStep(newStep) {
-        if (newStep === 2) {
-          this.onStepThree(); // Call the function when step 3 is reached
-        }
-      }
-    },
-    
+  },    
 };
 </script>

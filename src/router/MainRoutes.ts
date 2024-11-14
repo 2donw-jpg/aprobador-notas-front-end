@@ -53,9 +53,14 @@ const MainRoutes = {
       component: () => import('@/views/icons/AntDesignIcons.vue')
     },
     {
-      name: 'Testing',
+      name: 'TestingNotificaciones',
       path: '/testing',
-      component: () => import('@/views/_testing/IconLoad.vue')
+      component: () => import('@/views/_testing/NotificationsTest.vue')
+    },
+    {
+      name: 'Testing2',
+      path: '/testing2',
+      component: () => import('@/views/_testing/Testing2.vue')
     },
   ]
 };

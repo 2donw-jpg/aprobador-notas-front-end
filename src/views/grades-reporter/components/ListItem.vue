@@ -121,11 +121,8 @@ export default {
   },
   computed: {
     filteredCatedraticos() {
-      // Si `searchQuery` está vacío, devuelve todos los registros
-      if (!this.search) {
-        return this.catedraticos;
-      }
-      // Filtra los registros que coinciden con el término de búsqueda
+      if (!this.search) return this.catedraticos;
+      
       return this.catedraticos.filter(catedratico =>
         catedratico.nombre?.toUpperCase().includes(this.search.toUpperCase())
       );
@@ -138,13 +135,13 @@ export default {
   methods: {
     async loadData() {
       try {
-        //const response = await fetch('/Listitem.json');
         const parcial_id = '1';
         const response = await GradeManagmentService.getListByParcial(parcial_id);
-        if (response.ok){
-          console.log("The response is good");
-        }
-        // this.catedraticos = response.json();
+        if (response.status != 200){
+          console.log("aqui debe de mostrar un mensaje o algo");
+          throw new Error("Error al cargar los datos");
+        } 
+
         this.catedraticos = response.data;
 
       } catch (error) {
@@ -154,9 +151,11 @@ export default {
 
     async updateGradeStatus(){
       try {
-        //const response = await fetch('/Listitem.json');
-        const responsible_id = '1';
-        const schedule_id = '1';
+
+        const responsible = this.catedraticos.responsible_id;
+        const schedule = this.catedraticos.schedule_id;
+
+        
         const response = await GradeManagmentService.updateGradeStatus(responsible_id,schedule_id);
         if (response.status != 200){
           throw new Error("Error al cambiar el estado de entrega de nota");

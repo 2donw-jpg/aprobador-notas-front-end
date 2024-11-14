@@ -35,6 +35,6 @@ const breadcrumbs: Ref<{ title: string; disabled: boolean; href: string }[]> = r
 
 
   <v-col cols="24" md="12">
-      <ClassesList></ClassesList>
+      <ClassesList @executeFunction="parentFunction"></ClassesList>
   </v-col>
 </template>
