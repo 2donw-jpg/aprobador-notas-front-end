@@ -114,7 +114,7 @@ const sidebarItem: menu[] = [
     to: '/periods'
   },
   
-  { header: 'Authentication' },
+/*   { header: 'Authentication' },
   {
     title: 'Login',
     icon: LoginOutlined,
@@ -132,7 +132,7 @@ const sidebarItem: menu[] = [
     to: '/icon/ant'
   },
 
-/*   {
+   {
     title: 'Documentation',
     icon: QuestionOutlined,
     to: 'https://codedthemes.gitbook.io/mantis-vuetify/',
@@ -140,7 +140,7 @@ const sidebarItem: menu[] = [
     chip: 'gitbook',
     chipColor: 'secondary',
     chipVariant: 'flat'
-  } */
+  }  */
 ];
 
 export default sidebarItem;
