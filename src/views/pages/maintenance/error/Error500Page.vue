@@ -7,9 +7,9 @@
         <div class="errorMedia">
           <img src="@/assets/images/maintenance/Error500.png" alt="404" />
         </div>
-        <h1 class="text-h1 mt-2 mb-1">Internal Server Error</h1>
-        <p class="text-caption text-lightText">Server error 500. we fixing the problem. please try <br />again at a later stage.</p>
-        <v-btn variant="flat" color="primary" class="mt-4" to="/dashboard/analytics"> Back To Home</v-btn>
+        <h1 class="text-h1 mt-2 mb-1">Error Interno del Servidor</h1>
+        <p class="text-caption text-lightText">Error del servidor 500. Estamos solucionando el problema. por favor intenta<br />nuevamente en otra ocasión.</p>
+        <v-btn variant="flat" color="primary" class="mt-4" to="/dashboard/analytics"> Regresa a Inicio</v-btn>
       </div>
     </v-col>
   </v-row>

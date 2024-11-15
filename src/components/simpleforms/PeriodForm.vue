@@ -198,15 +198,15 @@ import { ParcialManagmentService } from '@/services/data.service.js';
                 end: new Date(period.end_date),
               };
           },
-          
-          loadParcial(parcials){
-            foreach(parcial => parcials){
+
+          loadParcial(){
+           /*  foreach(parcial => parcials){
               this.parcials.parcial = {
                 value: [new Date(parcial.start_date),new Date(parcial.end_date)],
                 start: new Date(parcial.start_date),
                 end: new Date(parcial.end_date),
               };
-            }
+            } */
           },
 
           loadParcials(){

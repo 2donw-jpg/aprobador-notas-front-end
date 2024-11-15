@@ -72,6 +72,11 @@ const MainRoutes = {
       path: '/tests/dialog',
       component: () => import('@/views/_testing/DialogTest.vue')
     },
+    {
+      name: 'FormTest',
+      path: '/tests/data-crud',
+      component: () => import('@/views/_testing/TableCRUDTest.vue')
+    },
   ]
 };
 

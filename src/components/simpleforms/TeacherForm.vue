@@ -26,7 +26,6 @@
               ></v-text-field>
             </v-col>
           
-
             <!-- Email Field -->
             <v-col>
               <v-text-field
@@ -79,6 +78,7 @@
     v-model="alert.visible"
   />
 
+
 </template>
 
 <script>
@@ -109,12 +109,14 @@ export default {
       fullNameRules: {
         required: v => !!v || 'Nombre completo es requerido',
         minLength: v => (v && v.length >= 10) || 'El nombre debe de contener por lo menos 10 carácteres',
-        onlyLetters: v => /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/.test(v) || 'El nombre solo puede contener letras y espacios',
+        onlyLetters: v => /^[a-zA-Zñ\s]+$/.test(v) || 'El nombre solo puede contener letras y espacios',
       },
       emailRules: {
         required: v => !!v || 'Correo electrónico es requerido',
-        email: v => /^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9]+(\.[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9]+)?$/.test(v) || 'El correo solo pueden ser letras, números y el signo de puntuación en medio'      }
-    };
+        email: v => /^[a-zA-Z-9]+(\.[a-zA-Z-9]+)?$/.test(v) || 'El correo solo pueden ser letras, números y el signo de puntuación en medio'      }
+    
+    
+      };
   },
 
   mounted() {
@@ -142,7 +144,7 @@ export default {
 
     saveForm() {
       if (this.valid) {
-        TeacherManagmentService.createTeacher(this.fullName.toUpperCase(), this.email)
+        TeacherManagmentService.createTeacher(this.fullName.toUpperCase(), this.email, this.selectedCareers)
           .then(response => {
             // Check if response status is 201 (created)
             if (response.status === 201) {

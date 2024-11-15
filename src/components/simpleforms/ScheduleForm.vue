@@ -12,10 +12,10 @@
       </v-btn>
     </template>
 
-    <v-stepper :items="items">
-      <template v-slot:item.1>
-        <v-form>
-          <v-container>
+    <v-card title="Crear Horario">
+      <div>
+        <v-form ref="form" v-model="valid" @submit.prevent="saveForm">
+          <v-container> 
           <v-row>
             <v-col>
               <v-select
@@ -24,6 +24,7 @@
                 item-title="title"
                 item-value="id"
                 variant="outlined"
+                base-color="#000"
                 v-model="selected.year"
                 :return-object="true"
                 @update:modelValue="onYearChange"
@@ -36,6 +37,7 @@
                 item-title="title"
                 item-value="id"
                 variant="outlined"
+                base-color="#000"
                 v-model="selected.period"
                 :disabled="!selected.year"
                 :return-object="true"
@@ -48,6 +50,7 @@
                 :items="lists.parcials"
                 item-title="title"
                 variant="outlined"
+                base-color="#000"
                 item-value="id"
                 v-model="selected.parcial"
                 :return-object="true"
@@ -66,7 +69,9 @@
               item-title="class"
               item-value="class_id"
               variant="outlined"
+              base-color="#000"
               v-model="selected.class"
+              :return-object="true"
             />
           </v-col>
           <v-col>
@@ -76,7 +81,9 @@
               item-title="section_name"
               item-value="section_id"
               variant="outlined"
+              base-color="#000"
               v-model="selected.section"
+              :return-object="true"
             />
           </v-col>
         </v-row>
@@ -88,43 +95,65 @@
               item-title="teacher_name"
               item-value="teacher_id"
               variant="outlined"
+              base-color="#000"
               v-model="selected.teacher"
+              :return-object="true"
             />
           </v-col>
         </v-row>
         </v-container>
         </v-form>
-      </template>
+      </div>
 
-      <template v-slot:item.2>
-        <h3>"En esta sección se establecerá un espacio para guardar el horario\nTemporalmente innabilidato" </h3>
-      </template>
-
-      <template v-slot:item.3>
-        <v-card title="Step Three" flat>...</v-card>
-      </template>
-    </v-stepper>
+          <v-card-actions>
+            <v-btn text="Cerrar" variant="tonal" @click="clearData"></v-btn>
+            <v-btn :disabled="!valid" variant="flat"  color="success" type="submit" @click="saveForm">Guardar</v-btn>
+          </v-card-actions>
+    </v-card>
 
   </v-dialog>
+
+  <GeneralAlert
+    :alertTitle="alert.title"
+    :alertType="alert.type"
+    v-model="alert.visible"
+  />
 </template>
 
 <script>
 import { GradeManagmentService, ParcialManagmentService } from '@/services/data.service.js';
+import GeneralAlert from '../shared/GeneralAlert.vue';
+
 
 export default {
+  components: {
+    GeneralAlert
+  },
+
+
   data: () => ({
     valid: false,
     dialog: false,
-    currentStep: 1,
-    items: ['Establecer Asignación', 'Agregar Horario ', 'Confirmar Información'],
+    alert: {visible: false,title: '',type: ''},
+
     selected: {
       year: '',
       period: '',
       parcial: '',
-      teacher: '',
-      class: '',
-      section: '',
+      teacher: {
+        teacher_id: '',
+        teacher_name: ''
+      },
+      class: {
+        class_id: '',
+        class: ''
+      },
+      section: {
+        section_id: '',
+        section_name: ''
+      },
     },
+
     lists: {
       jsonData: [],
       years: [],
@@ -139,10 +168,20 @@ export default {
   created() {
     this.loadData();
   },
+
   methods: {
 
     clearData(){
       this.valid = false;
+      this.selected = {
+        year: '',
+        period: '',
+        parcial: '',
+        teacher: '',
+        class: '',
+        section: '',
+      };
+      this.dialog = false;  // Close dialog after clearing if needed
     },
 
     async loadData() {
@@ -181,7 +220,48 @@ export default {
         this.selected.parcial = null;
     },
 
+    saveForm() {
+      const body = {
+        teacher_id: this.selected.teacher.teacher_id,
+        teacher_name: this.selected.teacher.teacher_name,
+        class_id: this.selected.class.class_id,
+        class_name: this.selected.class.class,
+        section_id: this.selected.section.section_id,
+        section_name: this.selected.section.section_name,
+        parcial_id: this.selected.parcial.id,  // Assuming the selected parcial has an 'id' field
+        parcial_name: this.selected.parcial.title,  // Assuming the selected parcial has a 'title' field
+        period_name: this.selected.period.title,  // Assuming the selected period has a 'title' field
+        year_name: parseInt(this.selected.year.title),  // Assuming the selected year has a 'title' field
+      };
 
+      console.log("Sending schedule data:", body);
+      GradeManagmentService.createSchedule(body).then(response => {
+        console.log("Schedule created successfully:", response);
+
+        this.clearData();
+      }).catch(error => {
+        console.error("Error creating schedule:", error);
+      });
+    },
+
+    SuccessAlert() {
+      this.alert.visible = true;
+      this.alert.title = 'Registro creado exitosamente';
+      this.alert.type = 'success';
+      
+    },
+    
+    ErrorAlert() {
+      this.alert.visible = true;
+      this.alert.title = 'Error al crear registro, por favor intente de nuevo. Si el problema persiste comuniquese con su supervisor sobre el problema';
+      this.alert.type = 'error';
+      
+    },
+    WarningAlert() {
+      this.alert.visible = true;
+      this.alert.title = 'Por favor, llene todos los datos correctamente';
+      this.alert.type = 'warning';
+    }
   },    
 };
 </script>

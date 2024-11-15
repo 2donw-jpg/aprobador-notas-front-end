@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCustomizerStore } from '../../../stores/customizer';
 // icons
-import { MenuFoldOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { MenuOutlined, SearchOutlined } from '@ant-design/icons-vue';
 
 // dropdown imports
 import NotificationDD from './NotificationDD.vue';
@@ -21,7 +21,7 @@ const customizer = useCustomizerStore();
       @click.stop="customizer.SET_MINI_SIDEBAR(!customizer.mini_sidebar)"
       size="small"
     >
-      <MenuFoldOutlined :style="{ fontSize: '16px' }" />
+      <MenuOutlined :style="{ fontSize: '16px' }" />
     </v-btn>
     <v-btn
       class="hidden-lg-and-up text-secondary ms-3"

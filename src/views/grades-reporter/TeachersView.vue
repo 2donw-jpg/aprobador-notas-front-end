@@ -3,8 +3,9 @@ import { ref, type Ref } from 'vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import TeacherForm from '@/components/simpleforms/TeacherForm.vue';
 import TeacherList from '@/views/grades-reporter/components/TeacherList.vue';
+import { TeamOutlined } from '@ant-design/icons-vue';
 
-const page: Ref<{ title: string }> = ref({ title: 'Catedráticos' });
+const page: Ref<{ title: string }> = ref({title: 'Catedráticos' });
 const breadcrumbs: Ref<{ title: string; disabled: boolean; href: string }[]> = ref([
   {
     title: 'Catedráticos',

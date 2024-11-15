@@ -9,7 +9,7 @@ export default {
     const hours = ref(0);
     const minutes = ref(0);
     const seconds = ref(0);
-    const lunchDate = new Date('30 Octobar 2023');
+    const lunchDate = new Date('2024-12-12');
 
     setInterval(() => {
       const currentDate = new Date();

@@ -1,42 +1,45 @@
 <template>
     <v-card dense>
-      
       <v-card-title class="d-flex align-center pa-2">
-        <v-text-field 
-        v-model="search"
-        label="Buscar por nombre"
-        variant="outlined"
-        hide-details
-        flat
-        dense
-        single-line
-      ></v-text-field>
+        <v-row class="align-top">
+          <v-col cols="4">
+            <v-text-field 
+            v-model="search"
+            label="Buscar por nombre"
+            variant="outlined"
+            hide-details
+            flat
+            dense
+            single-line
+          ></v-text-field>
+          </v-col>
 
-      <v-spacer></v-spacer>
 
-
-      <!-- TODO: Implementar esto ya en sistema -->
-<!--       <v-select
-        v-model="selectedCareers"
-        :items="careers"
-        label="Filtrar por Carrera"
-        item-title="career_name"
-        item-value="career_id"
-        variant="outlined"
-        dense
-        clearable
-        multiple
-      >
-        <template v-slot:selection="{ item, index }">
-        <v-chip v-if="index < 2">
-            <span>{{ item.title }}</span>
-        </v-chip>
-        <span v-if="index === 2" class="text-grey text-caption align-self-center">
-            (+{{ selectedCareers.length - 2 }} más)
-        </span>
-        </template>
-      </v-select> -->
-    </v-card-title>
+        <v-col cols="8" >
+          <v-select
+            v-model="selectedCareers"
+            :items="careers"
+            label="Filtrar por Carrera"
+            item-title="career_name"
+            item-value="career_id"
+            variant="outlined"
+            dense
+            clearable
+            multiple
+          >
+            <template v-slot:selection="{ item, index }">
+            <v-chip v-if="index < 2">
+                <span>{{ item.title }}</span>
+            </v-chip>
+            <span v-if="index === 2" class="text-grey text-caption align-self-center">
+                (+{{ selectedCareers.length - 2 }} más)
+            </span>
+            </template>
+            
+          </v-select> 
+        </v-col>
+        </v-row>
+      </v-card-title>
  
 
     <v-divider></v-divider>
@@ -44,48 +47,103 @@
       <!-- Data Table -->
       <v-data-table
         :headers="headers"
-        :items="teachers"
+        :items="filteredData"
         :search="search"
-        item-key="name"
+        item-key="teacher_id"
         :sortable="true"
       >
-      <template v-slot:item.teacher_active="{ item }">
-        <div class="text-start">
-          <v-chip
-            :color="item.teacher_active == 'ACTIVO' ? 'success' : 'grey'"
-            :text="item.teacher_active == 'ACTIVO' ? 'Activo' : 'Inactivo'"
-            variant="flat"
-          ></v-chip>
-        </div>
-      </template>
 
-    </v-data-table>
+        <template v-slot:item.teacher_careers="{ item }">
+          <div class="d-flex flex-wrap">
+            <v-chip
+              v-for="career in item.teacher_careers"
+              :key="career.career_id"
+              class="ma-1"
+              color="primary"
+              variant="outlined"
+              size="small"
+              label
+            >
+              {{ career.career_name }}
+            </v-chip>
+          </div>
+        </template>
+
+        <template v-slot:item.teacher_active="{ item }">
+          <div class="text-start">
+            <v-chip
+              :color="item.teacher_active == 1 ? 'success' : 'grey'"
+              :text="item.teacher_active == 1 ? 'Activo' : 'Inactivo'"
+              variant="flat"
+            ></v-chip>
+          </div>
+        </template>
+
+      </v-data-table>
     </v-card>
+
+
+
+    
   </template>
   
   <script>
 
 import { CareerManagmentService, TeacherManagmentService } from '@/services/data.service.js';
+import TeacherFormEdit from '@/components/simpleforms/TeacherFormEdit.vue';
 
   export default {
+    components: {
+      TeacherFormEdit
+    },
+
+    
+
     data() {
     return {
       headers: [
-        { title: 'Código', key: "teacher_code", value: 'teacher_id',align:"start"},
         { title: 'Nombre', key: "teacher_name", value: 'teacher_name' },
         { title: 'Correo electrónico', key: "teacher_email", value: 'teacher_email',},
+        { title: 'Carreras', key: "teacher_careers", value: 'teacher_careers',align:"start"},
         { title: 'Estado', key: "teacher_active", value: 'teacher_active' ,align:"center"},
-        { title: 'Acciones', key: "", value: '',sortable:"false",align:"center"}
+/*         { title: 'Acciones', key: "actions", value: '',sortable:"false",align:"center"} */
       ],
+
+      //Filter Options
       search: "",
-      teachers: [],
       selectedCareers: [],
-      careers: []// Almacena todos los registros
+      filteredData: [],
+
+      teachers: [],
+      careers: [],
+
+      selectedTeacher: null,
+      dialog: false,    
     };
+  },
+
+  computed: {
+    filteredData() {
+      return this.teachers.filter(item => {
+        const matchesSearch = this.search
+          ? item.teacher_name.toUpperCase().includes(this.search.toUpperCase())
+          : true;
+
+          const matchesCareer = this.selectedCareers.length
+          ? item.teacher_careers.some((career) => this.selectedCareers.includes(career.career_id))
+          : true;
+
+        return matchesSearch && matchesCareer;
+      });
+    }
   },
 
   mounted() {
     this.loadData();
+  },
+
+  watcher(){
+
   },
 
   methods: {

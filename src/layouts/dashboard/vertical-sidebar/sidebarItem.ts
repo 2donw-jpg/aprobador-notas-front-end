@@ -1,13 +1,14 @@
 // icons
 import {
-  QuestionOutlined,
-  DashboardOutlined,
-  ChromeOutlined,
+
   LoginOutlined,
   ProfileOutlined,
-  FontSizeOutlined,
-  BgColorsOutlined,
-  BarcodeOutlined,
+  TeamOutlined,
+  BookOutlined,
+  FieldTimeOutlined,
+  SolutionOutlined,
+  CalendarOutlined,
+
   CrownOutlined
 } from '@ant-design/icons-vue';
 
@@ -88,28 +89,28 @@ const sidebarItem: menu[] = [
   { header: 'Itenirario' },
   {
     title: 'Horario de clases',
-    icon: ProfileOutlined,
+    icon: CalendarOutlined,
     to: '/schedule'
   },
   {
     title: 'Reporte de Notas',
-    icon: ProfileOutlined,
+    icon: SolutionOutlined,
     to: '/grade-report'
   },
   { header: 'Información y Datos' },
   {
     title: 'Catedráticos',
-    icon: ProfileOutlined,
+    icon: TeamOutlined,
     to: '/teachers'
   },
   {
     title: 'Clases',
-    icon: ProfileOutlined,
+    icon: BookOutlined,
     to: '/classes'
   },
   {
     title: 'Periodos y Parciales',
-    icon: ProfileOutlined,
+    icon: FieldTimeOutlined,
     to: '/periods'
   },
   

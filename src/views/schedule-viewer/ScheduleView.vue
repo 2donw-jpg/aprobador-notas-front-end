@@ -16,17 +16,14 @@ const breadcrumbs: Ref<{ title: string; disabled: boolean; href: string }[]> = r
 </script>
 
 <template>
-  <!-- Breadcrumb component -->
-  <v-row>
-    <v-col>
-      <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
-    </v-col>
-    <v-col>
-      <ScheduleForm></ScheduleForm>
-    </v-col>
-  </v-row>
 
+  <v-row class="align-start">
+      <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  </v-row>
+  
   <v-col cols="24" md="12">
-      <ScheduleList></ScheduleList>
+      <ScheduleForm></ScheduleForm>
   </v-col>
+
 </template>
+

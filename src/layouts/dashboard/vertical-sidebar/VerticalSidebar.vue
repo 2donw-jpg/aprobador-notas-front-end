@@ -10,6 +10,7 @@ import Logo from '../logo/LogoDark.vue';
 
 const customizer = useCustomizerStore();
 const sidebarMenu = shallowRef(sidebarItems);
+
 </script>
 
 <template>
@@ -27,6 +28,7 @@ const sidebarMenu = shallowRef(sidebarItems);
     <div class="pa-5">
       <Logo />
     </div>
+    <v-divider></v-divider>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
     <!-- ---------------------------------------------- -->

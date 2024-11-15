@@ -10,9 +10,9 @@
             <img src="@/assets/images/maintenance/TwoCone.png" alt="grid" class="w-100" />
           </div>
         </div>
-        <h1 class="text-h1 mt-16">Page Not Found</h1>
-        <p class="text-h6 text-lightText">The page you are looking was moved, removed, <br />renamed, or might never exist!</p>
-        <v-btn variant="flat" color="primary" class="mt-2" to="/dashboard"> Back To Home</v-btn>
+        <h1 class="text-h1 mt-16">Página no encontrada</h1>
+        <p class="text-h6 text-lightText">La página que estás viendo fue movida, eliminada,<br />renombrado, o tal vez nunca exista!</p>
+        <v-btn variant="flat" color="primary" class="mt-2" to="/dashboard"> Volver a Inicio</v-btn>
       </div>
     </v-col>
   </v-row>
