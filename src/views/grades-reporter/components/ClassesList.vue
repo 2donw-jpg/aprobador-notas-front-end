@@ -36,10 +36,11 @@
         :sortable="true"
       >
       <template v-slot:item.class_active="{ item }">
-          <v-chip class="align-center"
+          <v-chip
             :color="item.class_active == 1 ? 'success' : 'grey'"
             :text="item.class_active == 1 ? 'Activo' : 'Inactivo'"
             variant="flat"
+            size="small"
           ></v-chip>
       </template>
 
@@ -58,8 +59,7 @@ import { ClassManagmentService } from '@/services/data.service.js';
       headers: [
         { title: 'Código', key: "class_code", value: 'class_code' },
         { title: 'Nombre', key: "class_name", value: 'class_name' },
-        { title: 'Estado', key: "class_active", value: 'class_active', align:"center"},
-        { title: 'Acciones', key: 'actions', sortable: false }
+        { title: 'Estado', key: "class_active", value: 'class_active', align:"center",sortable:false},  
       ],
       searchCode: "",
       searchName: "",

@@ -44,7 +44,7 @@
                 @update:modelValue="onPeriodChange"
               />
             </v-col>
-            <v-col>
+<!--             <v-col>
               <v-select
                 label="Parcial"
                 :items="lists.parcials"
@@ -56,7 +56,7 @@
                 :return-object="true"
                 :disabled="!selected.period"
               />
-            </v-col>
+            </v-col> -->
           </v-row>
           </v-container>
 
@@ -221,27 +221,39 @@ export default {
     },
 
     saveForm() {
-      const body = {
-        teacher_id: this.selected.teacher.teacher_id,
-        teacher_name: this.selected.teacher.teacher_name,
-        class_id: this.selected.class.class_id,
-        class_name: this.selected.class.class,
-        section_id: this.selected.section.section_id,
-        section_name: this.selected.section.section_name,
-        parcial_id: this.selected.parcial.id,  // Assuming the selected parcial has an 'id' field
-        parcial_name: this.selected.parcial.title,  // Assuming the selected parcial has a 'title' field
-        period_name: this.selected.period.title,  // Assuming the selected period has a 'title' field
-        year_name: parseInt(this.selected.year.title),  // Assuming the selected year has a 'title' field
-      };
+      // Prepare the base schedule data that will be shared for all parcials
+        const baseScheduleData = {
+          teacher_id: this.selected.teacher.teacher_id,
+          teacher_name: this.selected.teacher.teacher_name,
+          class_id: this.selected.class.class_id,
+          //class_code: this.selected.class.class_code,
+          class_name: this.selected.class.class,
+          section_id: this.selected.section.section_id,
+          section_name: this.selected.section.section_name,
+          period_name: this.selected.period.title,
+          year_name: parseInt(this.selected.year.title), // Assuming the selected year has a 'title' field
+        };
 
-      console.log("Sending schedule data:", body);
-      GradeManagmentService.createSchedule(body).then(response => {
-        console.log("Schedule created successfully:", response);
+        // Create an array of schedule data for all parcials
+        const schedules = this.lists.parcials.map(parcial => ({
+          ...baseScheduleData,  // Spread the shared data
+          parcial_id: parcial.id,  // Use the existing parcial id
+          parcial_name: parcial.title,  // Use the existing parcial name
+        }));
 
-        this.clearData();
-      }).catch(error => {
-        console.error("Error creating schedule:", error);
-      });
+        // Log the schedule data for debugging
+        console.log("Sending schedule data for all parcials:", schedules);
+
+        GradeManagmentService.createSchedule(schedules) 
+        .then(response => {
+          console.log("All schedules created successfully:", response);
+          this.clearData();  // Clear the form data
+          this.SuccessAlert(); // Optionally show success alert
+        })
+        .catch(error => {
+          console.error("Error creating schedules:", error);
+          this.ErrorAlert(); // Optionally show error alert
+        });
     },
 
     SuccessAlert() {

@@ -5,7 +5,7 @@
           <v-col cols="4">
             <v-text-field 
             v-model="search"
-            label="Buscar por nombre"
+            label="Buscar por Nombre"
             variant="outlined"
             hide-details
             flat
@@ -70,13 +70,12 @@
         </template>
 
         <template v-slot:item.teacher_active="{ item }">
-          <div class="text-start">
             <v-chip
               :color="item.teacher_active == 1 ? 'success' : 'grey'"
               :text="item.teacher_active == 1 ? 'Activo' : 'Inactivo'"
               variant="flat"
+              size="small"
             ></v-chip>
-          </div>
         </template>
 
       </v-data-table>
@@ -105,7 +104,7 @@ import TeacherFormEdit from '@/components/simpleforms/TeacherFormEdit.vue';
         { title: 'Nombre', key: "teacher_name", value: 'teacher_name' },
         { title: 'Correo electrónico', key: "teacher_email", value: 'teacher_email',},
         { title: 'Carreras', key: "teacher_careers", value: 'teacher_careers',align:"start"},
-        { title: 'Estado', key: "teacher_active", value: 'teacher_active' ,align:"center"},
+        { title: 'Estado', key: "teacher_active", value: 'teacher_active' ,align:"center" ,sortable:false},
 /*         { title: 'Acciones', key: "actions", value: '',sortable:"false",align:"center"} */
       ],
 
@@ -123,6 +122,8 @@ import TeacherFormEdit from '@/components/simpleforms/TeacherFormEdit.vue';
   },
 
   computed: {
+    
+    //This throws error, but when changed literally dies XD
     filteredData() {
       return this.teachers.filter(item => {
         const matchesSearch = this.search
